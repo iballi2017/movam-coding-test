@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
+import { throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { User } from '../../models/interfaces/user';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,20 +15,24 @@ import { AuthService } from '../../services/auth/auth.service';
 export class SignInComponent {
   user = { email: '' };
   isLoading = false;
-  constructor(private _authSvc: AuthService) {}
+  constructor(
+    private _authSvc: AuthService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   onSubmit(data: NgForm) {
-    console.log(data.value);
-    const payload = {
+    const payload: { email: string } = {
       email: data.value.name,
     };
 
     this._authSvc.loginUser(payload).subscribe({
-      next: (res) => {
-        console.log(res);
+      next: (user: User) => {
+        this.toastr.success(`Welcome ${user.email}`);
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.log(err);
+        this.toastr.error(err.message, 'Error!:');
       },
     });
   }

@@ -5,11 +5,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashbord',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
   {
-    path: 'dashbord',
+    path: 'dashboard',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },

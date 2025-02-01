@@ -1,26 +1,46 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  loggedinUser = new BehaviorSubject<any>({
+    email: '',
+  });
+  constructor(
+    private http: HttpClient // , private router: Router
+  ) {}
 
   loginUser(payload: { email: string }) {
-    console.log(payload.email);
-    return this.http.get(`${environment.apiUrl}/users`).pipe(
+    return this.http.get(`${environment.apiUrl}/users/2`).pipe(
       map((res: any) => {
-        console.log({ res });
-        const user = res.data.find((user: any) => user.email === payload.email);
-        console.log({ user });
-        return user ? user : null;
+        if (res && res.data) {
+          if (res.data.email === payload.email) {
+            this.setLoggedinUser(res.data);
+            return res.data;
+          } else {
+            throw new Error('Invalid credentials');
+          }
+        } else {
+          throw new Error('User not found');
+        }
       }),
       catchError((err) => {
-        return throwError(err);
+        return throwError(() => err);
       })
     );
+  }
+
+  setLoggedinUser(user: any) {
+    this.loggedinUser.next(user);
+  }
+
+  logoutUser() {
+    this.loggedinUser.next({ email: '' });
+    // this.router.navigate(['/auth']);
   }
 }
