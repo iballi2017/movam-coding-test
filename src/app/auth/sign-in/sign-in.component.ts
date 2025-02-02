@@ -24,6 +24,7 @@ export class SignInComponent {
   ) {}
 
   onSubmit(data: NgForm) {
+    this.isLoading = true;
     const payload: { email: string } = {
       email: data.value.name,
     };
@@ -32,9 +33,11 @@ export class SignInComponent {
       next: (user: User) => {
         this.toastr.success(`Welcome ${user.email}`);
         this.router.navigate(['/dashboard']);
+        this.isLoading = false;
       },
       error: (err) => {
         this.toastr.error(err.message, 'Error!:');
+        this.isLoading = false;
       },
     });
   }

@@ -4,6 +4,12 @@
     Welcome! {{ loggedinUser.email }}
   </h1>
 
+  <p>
+    <button class="flex mx-auto cursor-pointer text-red-400" (click)="logout()">
+      Logout
+    </button>
+  </p>
+
   <div class="my-10"></div>
 
   <div class="max-w-6xl mx-auto">

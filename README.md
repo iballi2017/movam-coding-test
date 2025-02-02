@@ -84,6 +84,8 @@ ng serve
 
 - Redirects to the dashboard on success.
 
+Note: use "janet.weaver@reqres.in" as the correct email address to test successful login
+
 ### Dashboard Component
 
 - Fetches and displays a list of users from the API.

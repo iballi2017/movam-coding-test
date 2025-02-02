@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user/user.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +24,8 @@ export class DashboardComponent {
   constructor(
     private _authSvc: AuthService,
     private toastr: ToastrService,
-    private _userSvc: UserService
+    private _userSvc: UserService,
+    private router: Router
   ) {
     this._authSvc.loggedinUser.subscribe((data) => {
       this.loggedinUser = data;
@@ -32,8 +34,9 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     if (this.loggedinUser.email === '') {
-      this.toastr.error('You are logged out!');
-      this._authSvc.logoutUser();
+      const response = this._authSvc.logoutUser();
+      response && this.toastr.error('You are logged out!');
+      response && this.router.navigate(['/auth/sign-in']);
     }
 
     /**fetch list of users */
@@ -50,6 +53,12 @@ export class DashboardComponent {
         this.toastr.error(err.message, 'Error!');
       },
     });
+  }
+
+  logout() {
+    const response = this._authSvc.logoutUser();
+    response && this.toastr.error('You are logged out!');
+    response && this.router.navigate(['/auth/sign-in']);
   }
 }
 
