@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { User } from '../models/interfaces/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,7 @@ export class DashboardComponent {
     last_name: '',
     avatar: '',
   };
-  constructor(private _authSvc: AuthService) {
+  constructor(private _authSvc: AuthService, private toastr: ToastrService) {
     this._authSvc.loggedinUser.subscribe((data) => {
       this.loggedinUser = data;
       console.log({
@@ -27,6 +28,7 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     if (this.loggedinUser.email === '') {
+      this.toastr.error('You are logged out!');
       this._authSvc.logoutUser();
     }
   }

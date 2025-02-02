@@ -11,9 +11,7 @@ export class AuthService {
   loggedinUser = new BehaviorSubject<any>({
     email: '',
   });
-  constructor(
-    private http: HttpClient // , private router: Router
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   loginUser(payload: { email: string }) {
     return this.http.get(`${environment.apiUrl}/users/2`).pipe(
@@ -41,6 +39,6 @@ export class AuthService {
 
   logoutUser() {
     this.loggedinUser.next({ email: '' });
-    // this.router.navigate(['/auth']);
+    this.router.navigate(['/auth/sign-in']);
   }
 }

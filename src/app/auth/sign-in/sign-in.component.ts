@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { User } from '../../models/interfaces/user';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-sign-in',
-  standalone: false,
+  imports: [FormsModule, CommonModule, SharedModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
 })

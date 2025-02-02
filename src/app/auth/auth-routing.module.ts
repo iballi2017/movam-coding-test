@@ -9,12 +9,10 @@ const routes: Routes = [
     path: '',
     component: AuthComponent,
     children: [
-      // {
-      //   path: '',
-      //   // pathMatch: 'full',
-      //   // redirectTo: 'sign-in',
-      //   component: SignInComponent,
-      // },
+      {
+        path: '',
+        component: SignInComponent,
+      },
       {
         path: 'sign-in',
         component: SignInComponent,
