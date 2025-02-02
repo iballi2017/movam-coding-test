@@ -11,8 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'sign-in',
+        component: SignInComponent,
       },
       {
         path: 'sign-in',

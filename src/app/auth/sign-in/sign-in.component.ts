@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sign-in',
-  standalone: false,
+  imports: [FormsModule, CommonModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
 })
