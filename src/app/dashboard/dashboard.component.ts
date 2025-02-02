@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
-import { User } from '../models/interfaces/user';
+// import { User } from '../models/interfaces/user';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../services/user/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -17,12 +19,14 @@ export class DashboardComponent {
     last_name: '',
     avatar: '',
   };
-  constructor(private _authSvc: AuthService, private toastr: ToastrService) {
+  users: Users = [];
+  constructor(
+    private _authSvc: AuthService,
+    private toastr: ToastrService,
+    private _userSvc: UserService
+  ) {
     this._authSvc.loggedinUser.subscribe((data) => {
       this.loggedinUser = data;
-      console.log({
-        loggedinUser: this.loggedinUser,
-      });
     });
   }
 
@@ -31,5 +35,29 @@ export class DashboardComponent {
       this.toastr.error('You are logged out!');
       this._authSvc.logoutUser();
     }
+
+    /**fetch list of users */
+    this.getUsers();
+  }
+
+  getUsers() {
+    this._userSvc.getUsers().subscribe({
+      next: (users: any) => {
+        console.log(users);
+        this.users = users.data as Users;
+      },
+      error: (err) => {
+        this.toastr.error(err.message, 'Error!');
+      },
+    });
   }
 }
+
+type User = {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+};
+type Users = User[];

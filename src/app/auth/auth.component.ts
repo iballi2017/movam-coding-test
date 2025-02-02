@@ -15,7 +15,6 @@ export class AuthComponent {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    console.log(this.router.url);
     this.setTitle(this.router.url);
 
     this.router.events.subscribe((event) => {

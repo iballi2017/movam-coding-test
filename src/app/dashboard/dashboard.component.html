@@ -1,4 +1,44 @@
 <!-- <p>dashboard works!</p> -->
-<div class="container mx-auto min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-    <h1 class="text-center font-bold text-2xl">Welcome! {{loggedinUser.email}}</h1>
+<div class="container mx-auto min-h-screen bg-gray-100">
+  <h1 class="text-center font-bold text-2xl">
+    Welcome! {{ loggedinUser.email }}
+  </h1>
+
+  <div class="my-10"></div>
+
+  <div class="max-w-6xl mx-auto">
+    <div class="relative overflow-x-auto">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 capitalize bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Name</th>
+            <th scope="col" class="px-6 py-3">Email Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
+            *ngFor="let user of users"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              <div class="flex items-center gap-2">
+                <div class="h-10 w-10 rounded-full overflow-hidden">
+                  <img [src]="user.avatar" alt="" class="w-full" />
+                </div>
+                <div>{{ user.first_name }}&nbsp;{{ user.last_name }}</div>
+              </div>
+            </th>
+            <td class="px-6 py-4">{{ user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
